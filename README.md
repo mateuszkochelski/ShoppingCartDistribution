@@ -52,7 +52,7 @@ Set cover problem can be reduced to ILP problem. For larger Data I would use ILP
    ```
    ShoppingCartDistribution-1.0-SNAPSHOT-all.jar
    ```
-fat-jar file our library.
+   fat-jar file our library.
 
 
 ### How to link library as dependency
