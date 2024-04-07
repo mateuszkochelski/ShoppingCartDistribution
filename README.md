@@ -22,13 +22,13 @@ Set cover problem can be reduced to ILP problem. For larger Data I would use ILP
    cd ShoppingCartDistribution/ShoppingCartDistribution
 3. Build project:
    ```bash
-   ./gradlew build
+   gradlew build
 4. You can run tests using
    ```bash
-   ./gradlew tests --rerun-tests
+   gradlew tests --rerun-tests
 5. You can create fat-jar using
    ```bash
-   ./gradlew shadowJar
+   gradlew shadowJar
 6. In build/libs directory you will have
 ShoppingCartDistribution-1.0-SNAPSHOT-all.jar fat-jar file our library.
 
