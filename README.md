@@ -1,6 +1,5 @@
 # ShoppingCartDistribution
-#### Mateusz_Kochelski_Java_Krakow
-
+### Mateusz_Kochelski_Java_Krakow
 ### Problem
 The task is to write an algorithm solving the "set cover problem" which is np-hard problem.
 The additional requirement was that if it is possible to select a pair of combinations with the smallest number of sets, we choose the combination where the largest set is the most numerous.
