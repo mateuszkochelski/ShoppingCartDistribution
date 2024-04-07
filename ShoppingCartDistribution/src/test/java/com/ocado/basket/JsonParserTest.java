@@ -13,7 +13,7 @@ class JsonParserTest {
 
     @Test
     void isInvalidPathThrowsException() {
-        String invalidPath = "invalidpath";
+        String invalidPath = "invalidPath";
         assertThrows(IOException.class, () -> parseConfigFile(invalidPath));
     }
 

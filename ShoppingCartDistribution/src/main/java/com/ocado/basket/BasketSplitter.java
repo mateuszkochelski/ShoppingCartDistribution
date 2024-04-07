@@ -35,10 +35,10 @@ public class BasketSplitter {
 
         for (String bitMask : allPossibilitiesArray)
         {
-            var couriersNeeded = Math.toIntExact(bitMask.chars().filter(c->c =='1').count());
+            int couriersNeeded = Math.toIntExact(bitMask.chars().filter(c->c =='1').count());
             if(finalCouriersNeeded != 0 && couriersNeeded > finalCouriersNeeded)
                 break;
-            var localDistribution = distributePackages(bitMask, items).orElseGet(HashMap::new);
+            Map<String, List<String>> localDistribution = distributePackages(bitMask, items).orElseGet(HashMap::new);
             int maxCourierPackage = localDistribution.values().stream().mapToInt(List::size).max().orElse(0);
             if(maxCourierPackage > finalMaxCourierPackage)
             {
@@ -111,5 +111,4 @@ public class BasketSplitter {
                 .filter(item -> !accumulativeSet.contains(item) && expectedSet.contains(item))
                 .collect(Collectors.toList());
     }
-
 }
