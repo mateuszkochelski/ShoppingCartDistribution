@@ -93,13 +93,12 @@ public class BasketSplitter {
     private ArrayList<String> initializeAllPossibilitiesArray(int size)
     {
         ArrayList<String> allPossibilities = new ArrayList<>(size);
-        for(int i = 1; i < Math.pow(2,size); i++)
+
+        IntStream.range(1,(int)Math.pow(2,size)).forEach(i ->
         {
             String subSet = Integer.toBinaryString(i);
-            subSet = Stream.concat(Collections.nCopies(size - subSet.length(),"0").stream(),Stream.of(subSet)).collect(Collectors.joining());
-            allPossibilities.add(subSet);
-        }
-        allPossibilities.sort(Comparator.comparingInt(s -> Math.toIntExact(s.chars().filter(c -> c == '1').count())));
+            allPossibilities.add(Stream.concat(Collections.nCopies(size - subSet.length(),"0").stream(),Stream.of(subSet)).collect(Collectors.joining()));
+        });
 
         return allPossibilities;
     }
@@ -109,8 +108,7 @@ public class BasketSplitter {
     }
     private List<String> getProductsToAdd(Set<String> expectedSet, Set<String> accumulativeSet, int addedSetIndex) {
         return couriersProductsMap.get(addedSetIndex).stream()
-                .filter(item -> !accumulativeSet.contains(item))
-                .filter(expectedSet::contains)
+                .filter(item -> !accumulativeSet.contains(item) && expectedSet.contains(item))
                 .collect(Collectors.toList());
     }
 

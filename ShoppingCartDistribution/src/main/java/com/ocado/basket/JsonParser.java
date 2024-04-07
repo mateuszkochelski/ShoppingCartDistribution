@@ -18,6 +18,7 @@ public class JsonParser {
             String product = it.next();
 
             JsonNode deliveryMethodsNode = rootNode.get(product);
+
             for (JsonNode deliveryMethod : deliveryMethodsNode)
             {
                 if(!couriersProductsHashMap.containsKey(String.valueOf(deliveryMethod)))

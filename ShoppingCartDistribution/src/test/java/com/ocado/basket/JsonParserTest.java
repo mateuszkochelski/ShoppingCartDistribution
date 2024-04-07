@@ -1,11 +1,13 @@
 package com.ocado.basket;
 
+
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static com.ocado.basket.JsonParser.parseConfigFile;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JsonParserTest {
 
