@@ -36,6 +36,9 @@ ShoppingCartDistribution-1.0-SNAPSHOT-all.jar fat-jar file our library.
 ### How to link library as dependency
 1. Put jar file in lib folder in your gradle project
 2. Add in your gradle.settings file this code
-```dependencies {
+```
+dependencies
+{
     implementation files('lib/ShoppingCartDistribution-1.0-SNAPSHOT-all.jar')
 }
+```
