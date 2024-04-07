@@ -23,8 +23,10 @@
    ```bash
    ./gradlew build
 4. You can run tests using
-  ./gradlew tests --rerun-tests
+   ```bash
+   ./gradlew tests --rerun-tests
 5. You can create fat-jar using
-  ./gradlew shadowJar
+   ```bash
+   ./gradlew shadowJar
 
 ###
