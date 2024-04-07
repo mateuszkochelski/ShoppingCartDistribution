@@ -13,7 +13,7 @@ Set cover problem can be reduced to ILP problem. For larger Data I would use ILP
 
 ### Prerequisites
 - Java 17
-- Gradlew
+- Gradle
 
 ### Usage
 
@@ -28,7 +28,7 @@ Set cover problem can be reduced to ILP problem. For larger Data I would use ILP
    gradlew build
 4. You can run tests using
    ```bash
-   gradlew tests --rerun-tests
+   gradlew tests --rerun-tasks
 5. You can create fat-jar using
    ```bash
    gradlew shadowJar
