@@ -4,7 +4,10 @@ The task is to write an algorithm solving the "set cover problem" which is np-ha
 The additional requirement was that if it is possible to select a pair of combinations with the smallest number of sets, we choose the combination where the largest set is the most numerous.
 
 ### Algorithm
-I use brute-force algorithm to check every possibility, 
+I use exponential algorithm to check every possibility.
+I create bitmask array sorted by number of ones in bitmask. Then I check for every number of ones in bitmask, whether set union of these sets is superset of our expected set. Then I check which combination of sets is fulfills the additional condition.
+I stop checking bitmasks of size i+1 when I found a solution that satisfies the bitmask of size i.
+
 ### Solution for larger Data
 Set cover problem can be reduced to ILP problem. For larger Data I would use ILP solver.
 
