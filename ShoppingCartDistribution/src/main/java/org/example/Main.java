@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        BasketSplitter basketSplitter = new BasketSplitter(" ");
+        BasketSplitter basketSplitter = new BasketSplitter("C:\\Users\\mkoch\\Downloads\\Zadanie\\Zadanie\\config.json");
         LinkedList<String> linkedList = new LinkedList<>(Arrays.asList("Cocoa Butter", "Tart - Raisin And Pecan", "Table Cloth 54x72 White", "Flower - Daisies", "Fond - Chocolate", "Cookies - Englishbay Wht"));
         var basketSplit = basketSplitter.split(linkedList);
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class BasketSplitter {
@@ -16,7 +17,7 @@ public class BasketSplitter {
 
     public BasketSplitter(String absolutePathToConfigFile)  {
         try {
-            ParsedData parsedData = JsonParser.getCouriersProductsMap(absolutePathToConfigFile);
+            ParsedData parsedData = JsonParser.parseConfigFile(absolutePathToConfigFile);
             this.couriersProductsMap = parsedData.couriersProductsMap();
             this.couriersNames = parsedData.couriersNames();
         }
@@ -50,49 +51,43 @@ public class BasketSplitter {
     }
 
     private Optional<Map<String, List<String>>> distributePackages(String bitMask, List<String> items) {
-        HashSet<String> expectedSet = new HashSet<>(items);
-        HashSet<String> newSet = new HashSet<>();
         Map<String, List<String>> result = new HashMap<>();
-        int maxCourierPackageIndex = 0;
-        int maxCourierPackageCount = 0;
+        HashSet<String> expectedSet = new HashSet<>(items);
 
-        for (int i = 0; i < bitMask.length();i++)
-            if(bitMask.charAt(i) == '1') {
-                newSet.addAll(couriersProductsMap.get(i));
-                HashSet<String> tempSet = new HashSet<>(couriersProductsMap.get(i));
-                tempSet.retainAll(expectedSet);
-                if(tempSet.size() > maxCourierPackageCount)
-                {
-                    maxCourierPackageIndex = i;
-                    maxCourierPackageCount = tempSet.size();
-                }
-            }
-
-        HashSet<String> differenceSet = new HashSet<>(expectedSet);
-        differenceSet.removeAll(newSet);
-        if(!differenceSet.isEmpty())
+        if(!isDistributionPossible(expectedSet, bitMask))
             return Optional.empty();
+        int maxCourierSetIndex = maxCourierSetIndex(expectedSet, bitMask);
 
-        newSet = new HashSet<>(couriersProductsMap.get(maxCourierPackageIndex));
-        newSet.retainAll(expectedSet);
+        List<String> productsToAdd = getProductsToAdd(expectedSet, new HashSet<>(), maxCourierSetIndex);
 
-        differenceSet.addAll(newSet);
+        HashSet<String> accumulativeSet = new HashSet<>(productsToAdd);
+        result.put(couriersNames.get(maxCourierSetIndex), productsToAdd);
 
-        result.put(couriersNames.get(maxCourierPackageIndex), new ArrayList<>(newSet));
-
-        for (int i = 0; i < bitMask.length();i++)
-            if(bitMask.charAt(i) == '1' && i != maxCourierPackageIndex) {
-                newSet = new HashSet<>(couriersProductsMap.get(i));
-                newSet.retainAll(expectedSet);
-                Set<String> localSet = new HashSet<>(newSet);
-
-                localSet.removeAll(differenceSet);
-                result.put(couriersNames.get(i), new ArrayList<>(localSet));
-                differenceSet.addAll(newSet);
-
-            }
+        IntStream.range(0, bitMask.length()).filter(i -> bitMask.charAt(i) == '1' && i!=maxCourierSetIndex)
+                .forEach(i ->
+                {
+                    result.put(couriersNames.get(i), getProductsToAdd(expectedSet, accumulativeSet, i));
+                    accumulativeSet.addAll(getProductsToAdd(expectedSet, accumulativeSet, i));
+                });
 
         return Optional.of(result);
+    }
+
+    private int maxCourierSetIndex(HashSet<String> expectedSet, String bitMask) {
+        return IntStream.range(0,bitMask.length())
+                .filter(i -> bitMask.charAt(i)=='1')
+                .reduce((maxIndex, currentIndex) ->
+                        setIntersection(couriersProductsMap.get(currentIndex),expectedSet).size() > setIntersection(couriersProductsMap.get(maxIndex),expectedSet).size()
+                                ? currentIndex : maxIndex).orElse(0);
+    }
+
+    private boolean isDistributionPossible(HashSet<String> expectedSet, String bitMask) {
+        return IntStream.range(0, bitMask.length())
+                .filter(i -> bitMask.charAt(i) == '1')
+                .mapToObj(couriersProductsMap::get)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet())
+                .containsAll(expectedSet);
     }
 
     private ArrayList<String> initializeAllPossibilitiesArray(int size)
@@ -108,4 +103,15 @@ public class BasketSplitter {
 
         return allPossibilities;
     }
+    private HashSet<String> setIntersection(Set<String> A, Set<String> B)
+    {
+        return A.stream().filter(B::contains).collect(Collectors.toCollection(HashSet::new));
+    }
+    private List<String> getProductsToAdd(Set<String> expectedSet, Set<String> accumulativeSet, int addedSetIndex) {
+        return couriersProductsMap.get(addedSetIndex).stream()
+                .filter(item -> !accumulativeSet.contains(item))
+                .filter(expectedSet::contains)
+                .collect(Collectors.toList());
+    }
+
 }

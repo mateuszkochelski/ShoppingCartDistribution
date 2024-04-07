@@ -8,11 +8,11 @@ import java.io.File;
 import java.io.IOException;
 public class JsonParser {
 
-    public static ParsedData getCouriersProductsMap(String absolutePathToConfigFile) throws IOException{
+    public static ParsedData parseConfigFile(String absolutePathToConfigFile) throws IOException{
         ObjectMapper objectMapper = new ObjectMapper();
         HashMap<String, Set<String>> couriersProductsHashMap = new HashMap<>();
 
-        JsonNode rootNode = objectMapper.readTree(new File("C:\\Users\\mkoch\\Downloads\\Zadanie\\Zadanie\\config.json"));
+        JsonNode rootNode = objectMapper.readTree(new File(absolutePathToConfigFile));
 
         for (Iterator<String> it = rootNode.fieldNames(); it.hasNext(); ) {
             String product = it.next();
