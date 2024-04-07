@@ -1,4 +1,3 @@
-# Mateusz_Kochelski_Java_Krakow
 # ShoppingCartDistribution
 ### Problem
 The task is to write an algorithm solving the "set cover problem" which is np-hard problem.
