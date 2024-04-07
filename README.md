@@ -34,7 +34,10 @@ Set cover problem can be reduced to ILP problem. For larger Data I would use ILP
    ```bash
    gradlew shadowJar
 6. In build/libs directory you will have
-ShoppingCartDistribution-1.0-SNAPSHOT-all.jar fat-jar file our library.
+```
+ShoppingCartDistribution-1.0-SNAPSHOT-all.jar
+```
+fat-jar file our library.
 
 
 ### How to link library as dependency
